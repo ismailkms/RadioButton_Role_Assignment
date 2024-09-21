@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35027.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RadioButton_Role_Assignment", "RadioButton_Role_Assignment\RadioButton_Role_Assignment.csproj", "{172DD5DB-C710-4D34-852F-3FBD4678C5DB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{172DD5DB-C710-4D34-852F-3FBD4678C5DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{172DD5DB-C710-4D34-852F-3FBD4678C5DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{172DD5DB-C710-4D34-852F-3FBD4678C5DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{172DD5DB-C710-4D34-852F-3FBD4678C5DB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {589A2246-4171-4820-AF4F-2172456C691A}
+	EndGlobalSection
+EndGlobal

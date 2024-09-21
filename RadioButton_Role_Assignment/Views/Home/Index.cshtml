@@ -1,0 +1,112 @@
+﻿@using RadioButton_Role_Assignment.ExampleEntities
+@model List<User>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Username</th>
+                <th scope="col">Rol Id</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.UserName</td>
+                    <td>@user.RoleId</td>
+                    <td><button class="btn btn-danger RoleAssignButton" data-bs-toggle="modal" data-bs-target="#assign_role_modal" data-id="@user.Id" name="@user.RoleId">Rol Ata</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="assign_role_modal" tabindex="-1" aria-labelledby="assignRoleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="assignRoleModalLabel">Roller</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <input type="hidden" name="userId" id="userId" value="" />@* modal-body altında tanımlanırsa her butona bastığımızda model-body altındaki html elemanlarını sildiğimiz için bu da silinecektir bundan dolayı hata verecektir ama istenilirse her butona basıldığında Jquery ile model-body altına radio butonlar gibi eklenebilir*@
+            <div class="modal-body">
+               @*  @foreach(var role in ViewBag.roles)
+                {
+                    <input type="radio" value="@role.Id" id="roleId" name="roleId" /> @role.Name<br/>
+                } *@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-primary" id="AssignRole">Rol Ata</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* @Html.Partial("_Modal") => Modal yukarıdaki gibi sayfa içerisinde olabilir ya da buraya yazmış olduğum komutla PartialView olarakta çekilebilir. _Modal adından bir PartialView oluşturulup burada çağırılabilir. *@
+
+@section Scripts {
+    <script>
+
+        $(document).ready(function () {
+            //Modal açılırken ilgili listedeki kullanıcının Id'sini ve roleId'sini modal'a gönderdik ve radio butonlarını dinamik bir şekilde oluşturduk
+            $(".RoleAssignButton").click(function () {
+
+                $(".modal-body").empty();//Butona her bastığımızda yeni radio buttonları oluşturacak ve bunlar diğerlerini silmeden oluşacak(Ör/ ilk bastığımızda 5 ise ikinci bastığımızda 5 tane daha ekleyecek ve 10 tane oluşacak) bundan dolayı butona her bastığımızda model-body içerisindeki tüm html elemanlarını siliyoruz.
+
+                var userId = $(this).data('id');//Sayfa içerisindeki "Rol Ata" butonunda (data-id="user.Id") bu şekilde  gönderdiğimiz userId'yi userId değişkenine attık
+
+                $("#userId").val(userId);//Elde ettiğimiz userId'yi id'si userId olan element'in value'sine atadık
+
+                var userRoleId = $(this).attr('name');//Sayfa içerisindeki "Rol Ata" butonunda (name="user.RoleId") bu şekilde  gönderdiğimiz roleId'yi userRoleId değişkenine attık
+
+                var Roles = @Html.Raw(ViewBag.Roles);//Json'a çevirdiğimiz rolleri jquery de kullanmak için Html.Raw aracılığıyla Roles değişkenine attık
+
+                $.each(Roles, (index, item) => {
+                    $(".modal-body").append(`<input type="radio" value="${item.Id}" id="roleId" name="roleId" ${item.Id == userRoleId ? 'checked' : ''} /> ${item.Name}<br/>`);
+                });//Jquery üzerinden model-body altına radio butonlarımızı oluşturduk ve çekmiş olduğumuz userRoleId ile userların rolleri varsa radio button üzerinde checked olarak gösterdik
+            });
+
+            //Modal içerisinden seçilmiş olan radio button'u ve input hidden içersindeki veriyi çekip controller'a yolladık. Mesajları alertify ile bildirdik 
+            $("#AssignRole").click(function () {
+                
+                var userId = $("#userId").val();
+                var roleId = $('input[name="roleId"]:checked').val();
+                if (roleId != null) {
+                    $('#assign_role_modal').modal('hide');//Modal içerisindeki "Rol Ata" butonuna tıklayınca modal'ı kapattık
+                    $.ajax({
+                        url: "/Home/AddRoleToUser",
+                        dataType: "json",
+                        data: {
+                            userId: userId,
+                            roleId: roleId
+                        },
+                        success: function (data) {
+                            if (data != null) {
+                                alertify.notify(data, 'success', 3);
+                            }
+                            else {
+                                alertify.notify('Role atanırken bir hatayla karşılaşıldı', 'error', 3);
+                            }
+
+                        }
+                    });
+                }
+                else {
+                    alertify.notify('Lütfen role seçiniz', 'error', 3);//radio button'lardan hiçbiri seçilmediyse uyarı yazdık
+                }
+                
+            })
+        });
+    </script>
+}
+

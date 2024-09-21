@@ -1,0 +1,21 @@
+﻿<div class="modal fade" id="assign_role_modal" tabindex="-1" aria-labelledby="assignRoleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="assignRoleModalLabel">Roller</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <input type="hidden" name="userId" id="userId" value="" />@* modal-body altında tanımlanırsa her butona bastığımızda model-body altındaki html elemanlarını sildiğimiz için bu da silinecektir bundan dolayı hata verecektir ama istenilirse her butona basıldığında Jquery ile model-body altına radio butonlar gibi eklenebilir*@
+            <div class="modal-body">
+                @*  @foreach(var role in ViewBag.roles)
+                {
+                <input type="radio" value="@role.Id" id="roleId" name="roleId" /> @role.Name<br/>
+                } *@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-primary" id="AssignRole">Rol Ata</button>
+            </div>
+        </div>
+    </div>
+</div>
