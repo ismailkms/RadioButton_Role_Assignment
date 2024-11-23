@@ -23,5 +23,12 @@ namespace RadioButton_Role_Assignment.ExampleServices
 
            return users.FirstOrDefault(u => u.Id == userId);
         }
+
+        public static Role GetUserRole(int userId)
+        {
+            var user = GetAllUsers().SingleOrDefault(u => u.Id == userId);
+            var role = RoleService.GetAllRoles().FirstOrDefault(r => r.Id == user?.RoleId);
+            return role;
+        }
     }
 }

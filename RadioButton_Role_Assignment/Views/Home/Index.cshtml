@@ -22,7 +22,10 @@
                     <td>@user.Id</td>
                     <td>@user.UserName</td>
                     <td>@user.RoleId</td>
-                    <td><button class="btn btn-danger RoleAssignButton" data-bs-toggle="modal" data-bs-target="#assign_role_modal" data-id="@user.Id" name="@user.RoleId">Rol Ata</button></td>
+                    <td>
+                        <button class="btn btn-danger RoleAssignButton" data-bs-toggle="modal" data-bs-target="#assign_role_modal" data-id="@user.Id" name="@user.RoleId">Radio Button ile Rol Ata</button>
+                        <a asp-action="AssignRoleWithCheckbox" asp-controller="Home" asp-route-userId="@user.Id" class="btn btn-danger">Checkbox ile Rol Ata</a>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -39,9 +42,9 @@
             </div>
             <input type="hidden" name="userId" id="userId" value="" />@* modal-body altında tanımlanırsa her butona bastığımızda model-body altındaki html elemanlarını sildiğimiz için bu da silinecektir bundan dolayı hata verecektir ama istenilirse her butona basıldığında Jquery ile model-body altına radio butonlar gibi eklenebilir*@
             <div class="modal-body">
-               @*  @foreach(var role in ViewBag.roles)
+                @*  @foreach(var role in ViewBag.roles)
                 {
-                    <input type="radio" value="@role.Id" id="roleId" name="roleId" /> @role.Name<br/>
+                <input type="radio" value="@role.Id" id="roleId" name="roleId" /> @role.Name<br/>
                 } *@
             </div>
             <div class="modal-footer">
@@ -76,9 +79,9 @@
                 });//Jquery üzerinden model-body altına radio butonlarımızı oluşturduk ve çekmiş olduğumuz userRoleId ile userların rolleri varsa radio button üzerinde checked olarak gösterdik
             });
 
-            //Modal içerisinden seçilmiş olan radio button'u ve input hidden içersindeki veriyi çekip controller'a yolladık. Mesajları alertify ile bildirdik 
+            //Modal içerisinden seçilmiş olan radio button'u ve input hidden içersindeki veriyi çekip controller'a yolladık. Mesajları alertify ile bildirdik
             $("#AssignRole").click(function () {
-                
+
                 var userId = $("#userId").val();
                 var roleId = $('input[name="roleId"]:checked').val();
                 if (roleId != null) {
@@ -104,7 +107,7 @@
                 else {
                     alertify.notify('Lütfen role seçiniz', 'error', 3);//radio button'lardan hiçbiri seçilmediyse uyarı yazdık
                 }
-                
+
             })
         });
     </script>
